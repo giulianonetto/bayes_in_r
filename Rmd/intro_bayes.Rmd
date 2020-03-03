@@ -1,0 +1,72 @@
+---
+output: html_document
+bibliography: library.bib
+csl: frontiers-medical-journals.csl
+---
+
+```{r setup, include=FALSE}
+library(knitr)
+knitr::opts_chunk$set(
+  echo = TRUE,
+  warning = FALSE,
+  message = FALSE
+)
+```
+
+
+
+```{css echo=FALSE}
+# apenas para formatação do HTML final :)
+.body {
+  text-align: justify
+}
+
+.figure {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+}
+
+.caption {
+  font-size: 12px
+}
+
+h1 {
+  font-size: 45px
+}
+```
+
+<center style="position: relative; top: 2rem;">
+![](https://assets.gitlab-static.net/uploads/-/system/project/avatar/2639401/bayes.jpg?width=64)
+</center>
+
+
+<br /><br />
+
+<center>
+  <h1>Inferência Bayesiana em R</h1>
+</center>
+
+<h5 style="text-align: right;">
+Giuliano Netto Flores Cruz <br />`r format(Sys.time(), '%B, %Y')`
+</h5>
+
+<br />
+
+# Introdução
+
+Quando pensamos em aprender sobre o mundo a partir da coleta de dados, estamos pensando em _inferência_. A inferência é um tipo de raciocínio por meio do qual saímos de simples amostras para generalizações em termos de uma população [@Montgomery2016]. Alternativamente, podemos entendê-la como uma ponte de via oposta àquela da probabilidade: enquanto que a última liga um processo de geração de dados aos valores observados, a primeira sai de dados observados para tentar estimar o referido processo (Fig. 1). 
+
+![<b>Fig. 1:</b> Inferência é um tipo de raciocínio que liga amostras às populações, isto é, dados observados aos processos responsáveis por gerá-los. Adaptado de [@Wasserman2010] - pág. IX.](imgs/fig1.png)
+
+Utilizando uma linguagem mais próxima à ciência da computação, chamamos de inferência estatística ou _aprendizado_ o processo de usar dados para inferir a distribuição gerou estes mesmos dados [@Wasserman2010] - daí termos populares em data science como _learning_, _statistical learning_, _machine learning_. Nesse contexto, há duas grandes "escolas" que merecem destaque.
+
+* __Inferência clássica__: também conhecida como _frequentista_, é assim rotulada por sua predominância durante do século XX, impulsionada por seus tradicionais fundadores, como Karl Pearson e Ronald A. Fisher [@Paulino2018]. Sob o paradigma clássico, é indispensável ter em mente que uma amostra $x$ é apenas uma das muitas possíveis dentro de um conjunto amostral $\mathcal{X}$. Tradicionalmente, entende-se que $X_1, X_2, \dots, X_n$ são $n$ variáveis aleatórias, idependentes e igualmente distribuídas de acordo com uma função de distribuição $\mathcal{F}_0$. Formula-se:
+
+$$
+
+$$
+
+
+# Referências
