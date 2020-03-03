@@ -4,10 +4,9 @@ Repositório com código e dados para apresentação introdutória a análise ba
 
 ## Objetivos:
 
-* Introduzir o __paradigma bayesiano__;
-* Motivar:
+* Introduzir o paradigma bayesiano:
     - Quantificação probabilística da __incerteza__;
-    - Representação da __informação a priori__;
-* Aplicar:
-    - __Inferência sobre parâmetros__ a partir da distribuição a posteriori.
-    - Contraponto a algoritmos _black-box_ de Machine Learning para __predição__.
+    - Representação da __informação a priori__.
+* Aplicar a problemas reais:
+    - __Inferência sobre parâmetros__: escrutínio da distribuição a posteriori;
+    - __Predição__: contraponto a algoritmos _black-box_ de Machine Learning.
