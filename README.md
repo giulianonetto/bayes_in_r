@@ -1,4 +1,4 @@
-# Estatística Bayesiana Utilizando R
+# Inferência Bayesiana Utilizando R
 
 Repositório com código e dados para apresentação introdutória a análise bayesiana utilizando R.
 
