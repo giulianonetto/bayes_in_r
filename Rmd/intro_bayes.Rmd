@@ -1,16 +1,18 @@
 ---
 output: html_document
-bibliography: library.bib
-csl: frontiers-medical-journals.csl
+bibliography: config_files/library.bib
+csl: config_files/frontiers-medical-journals.csl
 ---
 
 ```{r setup, include=FALSE}
 library(knitr)
+library(tufte)
 knitr::opts_chunk$set(
   echo = TRUE,
   warning = FALSE,
   message = FALSE
 )
+current_date = stringr::str_to_title(format(Sys.time(), "%B, %Y"))
 ```
 
 
@@ -18,23 +20,57 @@ knitr::opts_chunk$set(
 ```{css echo=FALSE}
 # apenas para formatação do HTML final :)
 .body {
-  text-align: justify
+  text-align: justify;
+  padding-left: 20px;
+  max-width: 1000px;
+  counter-reset: sidenote-counter;
+}
+
+.main-container {
+    max-width: 800px;
+    margin-left: 75px;
+    margin-right: auto;
+    float: left;
+}
+
+.marginfigure {
+    float: right;
+    clear: right;
+    margin-right: -55%;
+    width: 50%;
+    margin-top: 0;
+    margin-bottom: 1rem;
+    font-size: 13px;
+    line-height: 1.3;
+    background-color: #E5E5E5;
+    vertical-align: baseline;
+    position: relative;
+    border-radius: 10px;
 }
 
 .figure {
   display: block;
   margin-left: auto;
   margin-right: auto;
-  width: 50%;
+  width: 65%;
 }
 
 .caption {
-  font-size: 12px
+  font-size: 13px;
+  line-height: 1.3;
 }
 
 h1 {
   font-size: 45px
 }
+
+p {
+  margin-top: 5px;
+  margin-right: 5px;
+  margin-bottom: 10px;
+  margin-left: 7px;
+}
+
 ```
 
 <center style="position: relative; top: 2rem;">
@@ -48,8 +84,8 @@ h1 {
   <h1>Inferência Bayesiana em R</h1>
 </center>
 
-<h5 style="text-align: right;">
-Giuliano Netto Flores Cruz <br />`r format(Sys.time(), '%B, %Y')`
+<h5 style="text-align: left;">
+Giuliano Netto Flores Cruz <br />`r current_date`
 </h5>
 
 <br />
@@ -58,15 +94,43 @@ Giuliano Netto Flores Cruz <br />`r format(Sys.time(), '%B, %Y')`
 
 Quando pensamos em aprender sobre o mundo a partir da coleta de dados, estamos pensando em _inferência_. A inferência é um tipo de raciocínio por meio do qual saímos de simples amostras para generalizações em termos de uma população [@Montgomery2016]. Alternativamente, podemos entendê-la como uma ponte de via oposta àquela da probabilidade: enquanto que a última liga um processo de geração de dados aos valores observados, a primeira sai de dados observados para tentar estimar o referido processo (Fig. 1). 
 
-![<b>Fig. 1:</b> Inferência é um tipo de raciocínio que liga amostras às populações, isto é, dados observados aos processos responsáveis por gerá-los. Adaptado de [@Wasserman2010] - pág. IX.](imgs/fig1.png)
+![<b>Fig. 1:</b> Inferência é um tipo de raciocínio que liga amostras às populações, isto é, dados observados aos processos responsáveis por gerá-los. Adaptado de [@Wasserman2004] - pág. IX.](imgs/fig1.png)
 
-Utilizando uma linguagem mais próxima à ciência da computação, chamamos de inferência estatística ou _aprendizado_ o processo de usar dados para inferir a distribuição gerou estes mesmos dados [@Wasserman2010] - daí termos populares em data science como _learning_, _statistical learning_, _machine learning_. Nesse contexto, há duas grandes "escolas" que merecem destaque.
+Utilizando uma linguagem mais próxima à ciência da computação, chamamos de inferência estatística ou _aprendizado_ o processo de usar dados para inferir a distribuição que gerou estes mesmos dados [@Wasserman2004] - daí, também, termos populares em data science como _learning_, _statistical learning_, _machine learning_, etc. Dada uma amostra $X_1, X_2, \dots, X_n \overset{i.i.d.}{\thicksim} \mathcal{F_0}$, tipicamente estamos preocupados em descobrir $\mathcal{F_0}$ (ou um conjunto de características de $\mathcal{F_0}$, _e.g._, sua média) utilizando um modelo estatístico (ver Nota 1).
 
-* __Inferência clássica__: também conhecida como _frequentista_, é assim rotulada por sua predominância durante do século XX, impulsionada por seus tradicionais fundadores, como Karl Pearson e Ronald A. Fisher [@Paulino2018]. Sob o paradigma clássico, é indispensável ter em mente que uma amostra $x$ é apenas uma das muitas possíveis dentro de um conjunto amostral $\mathcal{X}$. Tradicionalmente, entende-se que $X_1, X_2, \dots, X_n$ são $n$ variáveis aleatórias, idependentes e igualmente distribuídas de acordo com uma função de distribuição $\mathcal{F}_0$. Formula-se:
+<div class="marginfigure">
+__Nota 1 - Modelo Estatístico__: 
 
-$$
+Seja $X_1, X_2, \dots, X_n$ uma amostra de $n$ variáveis aleatórias independentes e igualmente distribuídas. Um modelo estatístico associado (paramétrico) é o par:
 
-$$
+$$(E,\ \{\mathcal{F}_{\theta}\}_{\theta \in \Theta})$$
+em que:
 
+* $E$ é o espaço amostral, o qual contém todos os desfechos possíveis para $X$; 
+* $\{\mathcal{F}_{\theta}\}_{\theta \in \Theta}$ é uma família de distribuições de probabilidade em $E$;
+* $\Theta$ é o espaço paramétrico contendo todos os parâmetros possíveis $\theta \in \Theta$ que indexam $\mathcal{F}_{\theta}$. 
+
+Por exemplo, o jogar de uma moeda pode ser modelado a partir da distribução de [Bernoulli](https://pt.wikipedia.org/wiki/Distribui%C3%A7%C3%A3o_de_Bernoulli), em que $E = \{0,1\}$, $\Theta = \{\theta \in \mathbb{R}:\ 0 < \theta < 1\} = (0,1)$ e $\mathcal{F}_{\theta} = \mathcal{Ber}(\theta)$. O presente modelo pode ser definido, portando, como:
+
+$$(\{0,1\}, \{\mathcal{Ber}(\theta)\}_{\theta \in (0,1)})$$
+
+Assumindo que $X$ segue uma distribuição $F_0$ desconhecida, uma vez que temos $(E,\ \{F_{\theta}\}_{\theta \in \Theta})$, o processo de inferência trata, por exemplo, de achar $\widehat{\theta}$ tal que $\mathcal{F}_{\widehat{\theta}}$ aproxima $\mathcal{F_0}$. Nesse caso, $\hat{\theta}$ é uma estimativa pontual de um __parâmetro__ $\theta$ que indexa $\mathcal{F_0}$. Inferência não paramétrica ocorre quando não podemos definir um número finito de parâmetros que indexam a família $\{F_{\theta}\}_{\theta \in \Theta}$. No caso da distribuição de Bernoulli, $\theta \in (0,1)$ é um escalar (dimensão igual a 1); no caso não paramétrico, a dimensão de $\theta$ não possui valor finito.
+
+</div>
+
+Nesse contexto, há duas grandes "escolas" que merecem destaque: clássica e bayesiana. Embora foquemos na segunda, é didático termos um overview da primeira a fim de deixar claras as suas diferenças.
+
+## Inferência Clássica
+
+Também conhecida como _frequentista_, é rotulada como clássica por sua predominância durante a primeira metade do século passado, impulsionada por seus tradicionais fundadores, como Karl Pearson e Ronald A. Fisher [@Paulino2018]. De acordo com [@Wasserman2004], trabalha em cima de três principais postulados:
+
+* Probabilidade se refere a frequências relativas limites, como propriedades objetivas do mundo real. Ex: a probabilidade de resultar cara ao jogar de uma moeda é a frequência relativa de resultados cara observados em $n$ jogos no limite $n \rightarrow \infty$.
+
+* Parâmetros são constantes fixas desconhecidas. Como não flutuam (não vão variáveis aleatórias), nenhuma afirmação probabilística sobre parâmetros faz sentido, _e.g._, "existe 95% de probabilidade de o parâmetro $\mu$ pertencer ao intervalo $[A, B]$".
+
+* Statistical procedures should be designed to have well-defined long run
+frequency properties. For example, a 95 percent confidence interval should
+trap the true value of the parameter with limiting frequency at least 95
+percent.
 
 # Referências
