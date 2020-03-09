@@ -1,0 +1,145 @@
+a, a > code {
+  color: rgb(249, 38, 114);
+  text-decoration: none;
+}
+.footnote {
+  position: absolute;
+  bottom: 3em;
+  padding-right: 4em;
+  font-size: 90%;
+}
+.remark-code-line-highlighted     { background-color: #ffff88; }
+
+.inverse {
+  background-color: #272822;
+  color: #d6d6d6;
+  text-shadow: 0 0 20px #333;
+  font-family: Helvetica;
+}
+.inverse h1 {
+  color: #f3f3f3;
+  font-size: 55px;
+}
+.inverse h2 {
+  color: #f3f3f3;
+  font-size: 40px;
+}
+.inverse h3 {
+  color: #f3f3f3;
+  font-size: 25px;
+}
+
+div {
+  font-family: helvetica;
+}
+
+span[class="mjx-chtml MJXc-display"] {
+  font-size: 40px;
+}
+
+div[class="remark-code-line remark-code-line-highlighted"] {
+  background-color: #295E7A;
+}
+
+h4 {
+  font-size: 25px;
+  margin-bottom: 2px;
+}
+
+h5 {
+  font-size: 20px;
+}
+
+p {
+  font-size: 22px;
+}
+code {
+  border-radius: 10px;
+}
+.mjx-math {
+  font-size: 30px;
+  margin: 7px;
+}
+.mjx-line {
+    display: block;
+    height: 2.5px;
+}
+.center {
+  font-size: 30px;
+}
+
+.footer {
+  text-align: left;
+}
+
+.important_equation {
+  background-color: #C0C3CA;
+  width: 50%;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 10px;
+}
+
+.important_equation_large {
+  background-color: #C0C3CA;
+  width: 70%;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 10px;
+}
+
+/* Two-column layout */
+.left-column {
+  color: #777;
+  width: 20%;
+  height: 92%;
+  float: left;
+}
+.left-column h2:last-of-type, .left-column h3:last-child {
+  color: #000;
+}
+.right-column {
+  width: 75%;
+  float: right;
+  padding-top: 1em;
+}
+.pull-left {
+  float: left;
+  width: 47%;
+}
+.pull-right {
+  float: right;
+  width: 47%;
+}
+.pull-right ~ * {
+  clear: both;
+}
+img, video, iframe {
+  max-width: 95%;
+  max-height: 95%;
+}
+blockquote {
+  border-left: solid 5px lightgray;
+  padding-left: 1em;
+}
+.remark-slide table {
+  margin: auto;
+  border-top: 1px solid #666;
+  border-bottom: 1px solid #666;
+}
+.remark-slide table thead th { border-bottom: 1px solid #ddd; }
+th, td { padding: 5px; }
+.remark-slide thead, .remark-slide tfoot, .remark-slide tr:nth-child(even) { background: #eee }
+
+@page { margin: 0; }
+@media print {
+  .remark-slide-scaler {
+    width: 100% !important;
+    height: 100% !important;
+    transform: scale(1) !important;
+    top: 0 !important;
+    left: 0 !important;
+  }
+}

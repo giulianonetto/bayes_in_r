@@ -36,7 +36,7 @@ current_date = stringr::str_to_title(format(Sys.time(), "%B, %Y"))
 .marginfigure {
     float: right;
     clear: right;
-    margin-right: -55%;
+    margin-right: -53%;
     width: 50%;
     margin-top: 0;
     margin-bottom: 1rem;
@@ -96,25 +96,30 @@ Quando pensamos em aprender sobre o mundo a partir da coleta de dados, estamos p
 
 ![<b>Fig. 1:</b> Inferência é um tipo de raciocínio que liga amostras às populações, isto é, dados observados aos processos responsáveis por gerá-los. Adaptado de [@Wasserman2004] - pág. IX.](imgs/fig1.png)
 
-Utilizando uma linguagem mais próxima à ciência da computação, chamamos de inferência estatística ou _aprendizado_ o processo de usar dados para inferir a distribuição que gerou estes mesmos dados [@Wasserman2004] - daí, também, termos populares em data science como _learning_, _statistical learning_, _machine learning_, etc. Dada uma amostra $X_1, X_2, \dots, X_n \overset{i.i.d.}{\thicksim} \mathcal{F_0}$, tipicamente estamos preocupados em descobrir $\mathcal{F_0}$ (ou um conjunto de características de $\mathcal{F_0}$, _e.g._, sua média) utilizando um modelo estatístico (ver Nota 1).
+Dada uma amostra $X_1, X_2, \dots, X_n \overset{i.i.d.}{\thicksim} F_0$, tipicamente estamos preocupados em descobrir $F_0$ (ou um conjunto de características de $F_0$, _e.g._, sua média) [@Wasserman2004]. Para tanto, utilizamos um modelo estatístico (ver Nota 1).
 
 <div class="marginfigure">
 __Nota 1 - Modelo Estatístico__: 
 
-Seja $X_1, X_2, \dots, X_n$ uma amostra de $n$ variáveis aleatórias independentes e igualmente distribuídas. Um modelo estatístico associado (paramétrico) é o par:
+Seja $X = (X_1, X_2, \dots, X_n)$ uma amostra de $n$ variáveis aleatórias independentes e igualmente distribuídas. Um modelo estatístico associado (paramétrico) é dado pelo par:
 
-$$(E,\ \{\mathcal{F}_{\theta}\}_{\theta \in \Theta})$$
+$$
+(\mathcal{X},\ \{F_{\theta}\}_{\theta \in \Theta})
+$$
+
 em que:
 
-* $E$ é o espaço amostral, o qual contém todos os desfechos possíveis para $X$; 
-* $\{\mathcal{F}_{\theta}\}_{\theta \in \Theta}$ é uma família de distribuições de probabilidade em $E$;
-* $\Theta$ é o espaço paramétrico contendo todos os parâmetros possíveis $\theta \in \Theta$ que indexam $\mathcal{F}_{\theta}$. 
+* $\mathcal{X}$ é o espaço amostral, o qual contém todos os desfechos possíveis para $X$; 
+* $\{F_{\theta}\}_{\theta \in \Theta}$ é uma família de distribuições de probabilidade com suporte em $\mathcal{X}$;
+* $\Theta$ é o espaço paramétrico contendo todos os parâmetros possíveis $\theta \in \Theta$ que indexam $F_{\theta}$. 
 
-Por exemplo, o jogar de uma moeda pode ser modelado a partir da distribução de [Bernoulli](https://pt.wikipedia.org/wiki/Distribui%C3%A7%C3%A3o_de_Bernoulli), em que $E = \{0,1\}$, $\Theta = \{\theta \in \mathbb{R}:\ 0 < \theta < 1\} = (0,1)$ e $\mathcal{F}_{\theta} = \mathcal{Ber}(\theta)$. O presente modelo pode ser definido, portando, como:
+Por exemplo, o jogar de uma moeda pode ser modelado a partir da distribução de [Bernoulli](https://pt.wikipedia.org/wiki/Distribui%C3%A7%C3%A3o_de_Bernoulli), em que $\mathcal{X} = \{0,1\}$, $\Theta = \{\theta \in \mathbb{R}:\ 0 < \theta < 1\} = (0,1)$ e $\{F_{\theta}\} = \mathcal{Ber}(\theta)$. O presente modelo pode ser definido, portando, como:
 
-$$(\{0,1\}, \{\mathcal{Ber}(\theta)\}_{\theta \in (0,1)})$$
+$$
+(\{0,1\}, \{\mathcal{Ber}(\theta)\}_{\theta \in (0,1)})
+$$
 
-Assumindo que $X$ segue uma distribuição $F_0$ desconhecida, uma vez que temos $(E,\ \{F_{\theta}\}_{\theta \in \Theta})$, o processo de inferência trata, por exemplo, de achar $\widehat{\theta}$ tal que $\mathcal{F}_{\widehat{\theta}}$ aproxima $\mathcal{F_0}$. Nesse caso, $\hat{\theta}$ é uma estimativa pontual de um __parâmetro__ $\theta$ que indexa $\mathcal{F_0}$. Inferência não paramétrica ocorre quando não podemos definir um número finito de parâmetros que indexam a família $\{F_{\theta}\}_{\theta \in \Theta}$. No caso da distribuição de Bernoulli, $\theta \in (0,1)$ é um escalar (dimensão igual a 1); no caso não paramétrico, a dimensão de $\theta$ não possui valor finito.
+Assumindo que $X$ segue uma distribuição $F_0$ desconhecida, uma vez que temos $(E,\ \{F_{\theta}\}_{\theta \in \Theta})$, o processo de inferência trata, por exemplo, de achar $\widehat{\Theta}$ tal que $\mathcal{F}_{\widehat{\theta}}$ aproxima $\mathcal{F_0}$. Nesse caso, $\hat{\theta}$ é uma estimativa pontual de um __parâmetro__ $\theta$ que indexa $\mathcal{F_0}$. Inferência não paramétrica ocorre quando não podemos definir um número finito de parâmetros que indexam a família $\{F_{\theta}\}_{\theta \in \Theta}$. No caso da distribuição de Bernoulli, $\theta \in (0,1)$ é um escalar (dimensão igual a 1); no caso não paramétrico, a dimensão de $\theta$ não possui valor finito.
 
 </div>
 
