@@ -29,6 +29,23 @@ a, a > code {
   font-size: 25px;
 }
 
+.large { 
+  font-size: 130% 
+}
+
+.small { 
+  font-size: 60%; 
+}
+
+.footnote {
+  font-size: 1rem;
+}
+
+.red {
+  color: red;
+}
+
+
 div {
   font-family: helvetica;
 }
@@ -39,6 +56,10 @@ span[class="mjx-chtml MJXc-display"] {
 
 div[class="remark-code-line remark-code-line-highlighted"] {
   background-color: #295E7A;
+}
+
+h1, h2, h3 {
+    font-family: Vivaldi, cursive;
 }
 
 h4 {

@@ -14,97 +14,119 @@ class: center, middle, inverse, title-slide
 ## utilizando R
 ### <br/>Giuliano Netto Flores Cruz
 ### BiomeHub
-### Março, 2020
+### Junho, 2020
 
 ---
 
 
-.center[Rev. Thomas Bayes (1701 – 1761)]
-&lt;br/&gt;&lt;br/&gt;
-.center[![Rev. Thomas Bayes (1701 – 1761)](imgs/slides/thomas_bayes.gif)]
 
 
 
+### PDI na indústria farmacêutica
+
+.large[
+* Medicamentos e Vacinas
+* Diagnóstico
+* Formas Farmacêuticas
+* Terapias gênicas e celulares
+]
+
+&lt;br&gt;
+
+&lt;span style="position: relative; float: right"&gt;
+&lt;img src="imgs/slides/pharmaceutical_pdi.png" width="600" height="325" /&gt;
+&lt;/span&gt;
 
 ---
-class: center, middle
 
-![](imgs/slides/bayes_paper.png)
+### Eficácia de Tratamento
+
+&lt;img src="imgs/slides/forest_plot_example.png" width="992" /&gt;
+
+.small[(Luthra, Camilleri, Burr, et al., 2019)]
+---
+
+.pull-left[
+### Perguntas&lt;br&gt;(quase sempre)&lt;br&gt;sem resposta
+]
+
+.pull-right[
+&lt;img src="imgs/slides/forest_plot_example.png" width="992" /&gt;
+]
+
+&lt;hr&gt;
+
+
+.large[
+
+* Qual a probabilidade de o __tratamento A ser melhor em média do que o tratamento B__?
+
+]
+--
+
+.large[
+
+* Qual a probabilidade de o tratamento B ter um __efeito médio maior do que 0__?
+]
+
+--
+
+.large[
+* Qual a probabilidade de o tratamento B estar dentro da __faixa terapêutica__?
+]
+
+--
+
+.large[
+* Qual a probabilidade de o tratamento B levar a uma __piora clínica__?
+]
+
+---
+
+## Por que não temos respostas sob estatística clássica?
+
+--
+
+### Efeitos médios são .red[números]
+### Não têm .red[distribuição de probabilidade]
+
+--
+
+
+
+$$
+P(\text{A melhor em média que B}) = \begin{cases} 
+      1 &amp; \mu_A &gt; \mu_B \\\
+      0 &amp; \text{caso contrário} 
+   \end{cases}
+$$ 
+
+&lt;br&gt;&lt;br&gt;
+
+.small[
+&lt;sup&gt;*&lt;/sup&gt; supondo que ambos se encontram dentro da faixa terapêutica
+]
 
 ---
 class: inverse, center, middle
 
-# Framework Bayesiano
+## Como ter uma ideia sobre os valores possíveis dos meus parâmetros em termos de &lt;i style="color: blue"&gt;PROBABILIDADE&lt;/i&gt; ?
+
+&lt;br&gt;&lt;br&gt;
+
+### Tratar `\(\mu_A\)` e `\(\mu_B\)` como &lt;i style="color: blue"&gt;variáveis aleatórias&lt;/i&gt;.
+
+---
+class: inverse, center, middle
+
+# Inferência Bayesiana:
+### quantificação probabilística da incerteza
 
 ![](https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Bayes%27_Theorem_MMB_01.jpg/1200px-Bayes%27_Theorem_MMB_01.jpg)
 
 ---
 
-## Te lembras?
-
-`$$P(A \cap B)$$`
---
-
-`$$P(A \cap B) = \color{#3200C3}{P(A|B)P(B)}$$`
-
---
-
-`$$\color{red}{P(B|A)P(A)} =P(A \cap B) = \color{#3200C3}{P(A|B)P(B)}$$`
---
-
-`$$\color{red}{P(B|A)P(A)} = \color{#3200C3}{P(A|B)P(B)}$$`
-
---
-
-### Teorema de Bayes:
-
-.important_equation[
-`$$\color{red}{P(B|A)} = \frac{\color{#3200C3}{P(A|B)P(B)}}{\color{red}{P(A)}}$$`
-]
-
-
----
-
-.important_equation[
-`$$\color{red}{P(B|A)} = \frac{\color{#3200C3}{P(A|B)P(B)}}{\color{red}{P(A)}}$$`
-]
-
---
-
-`\(X \sim F_0\)`
-
-.left-column[
-#### Modelo Estatístico
-
-#### Distribuição de `\(\theta\)`
-]
-
-.right-column[
-`\(\mathcal{F} = \{\color{#3200C3}{f(x|\theta)}: \theta \in \Theta\}, x \in \mathcal{X} \quad\)`
-]
-
-.right-column[
-`\(\color{red}{f(\theta|x)}\)` (parâmetro é tratado como __variável aleatória__)
-]
-
-
---
-
-&lt;br /&gt;&lt;br /&gt;&lt;br /&gt;&lt;br /&gt;&lt;br /&gt;&lt;br /&gt;&lt;br /&gt;&lt;br /&gt;
-
-.important_equation_large[
-$$
-\color{red}{f(\theta|x)} = \frac{\color{#3200C3}{f(x|\theta)f(\theta)}}{\color{red}{f(x)}}
-\propto  \color{#3200C3}{f(x|\theta)f(\theta)}
-$$
-]
-
-&lt;span style="position: relative; right: 10rem; bottom: 0.5rem; font-size: 18px"&gt;
-*Os elementos de `\(\mathcal{F}\)` são candidatos a `\(F_0\)`
-&lt;/span&gt;
----
-
-### Teorema na prática
+### Bayesian update
 
 `$$\color{red}{f(\theta|x)} \propto  \color{#3200C3}{f(x|\theta)f(\theta)}$$`
 .important_equation_large[
@@ -120,7 +142,10 @@ $$
 
 --
 
-![](slides_files/figure-html/unnamed-chunk-1-1.png)&lt;!-- --&gt;
+
+
+
+![](slides_files/figure-html/unnamed-chunk-4-1.png)&lt;!-- --&gt;
 
 `\(\hat{\theta}_{MLE}=\)` 0.25 vs `\(\hat{\theta}_{Bayes}=\)` 0.397
 
@@ -173,7 +198,7 @@ ggplot(data = virus, aes(x = grupo, y = carga_viral, fill = grupo)) +
   labs(y = "Carga Viral", x = NULL, fill = NULL)
 ```
 
-&lt;img src="slides_files/figure-html/unnamed-chunk-3-1.png" width="70%" /&gt;
+&lt;img src="slides_files/figure-html/unnamed-chunk-6-1.png" width="70%" /&gt;
 
 ---
 
@@ -244,7 +269,7 @@ plot_model(fit_ols) +
   theme(axis.text = element_text(size = 14, face = "bold"))
 ```
 
-&lt;img src="slides_files/figure-html/unnamed-chunk-5-1.png" width="90%" /&gt;
+&lt;img src="slides_files/figure-html/unnamed-chunk-8-1.png" width="90%" /&gt;
 
 ---
 
@@ -264,10 +289,75 @@ Usamos as priors conservadoras:
 
 `\(\sigma \sim \mathcal{Exp}(1)\)`
 
+---
+class: inverse, middle, center
 
+## APÊNDICE
+
+---
+
+## Te lembras?
+
+`$$P(A \cap B)$$`
+--
+
+`$$P(A \cap B) = \color{#3200C3}{P(A|B)P(B)}$$`
+
+--
+
+`$$\color{red}{P(B|A)P(A)} =P(A \cap B) = \color{#3200C3}{P(A|B)P(B)}$$`
+--
+
+`$$\color{red}{P(B|A)P(A)} = \color{#3200C3}{P(A|B)P(B)}$$`
+
+--
+
+### Teorema de Bayes:
+
+.important_equation[
+`$$\color{red}{P(B|A)} = \frac{\color{#3200C3}{P(A|B)P(B)}}{\color{red}{P(A)}}$$`
+]
 
 
 ---
+
+.important_equation[
+`$$\color{red}{P(B|A)} = \frac{\color{#3200C3}{P(A|B)P(B)}}{\color{red}{P(A)}}$$`
+]
+
+--
+
+`\(X \sim F_0\)`
+
+.left-column[
+#### Modelo Estatístico
+
+#### Distribuição de `\(\theta\)`
+]
+
+.right-column[
+`\(\mathcal{F} = \{\color{#3200C3}{f(x|\theta)}: \theta \in \Theta\}, x \in \mathcal{X} \quad\)`
+]
+
+.right-column[
+`\(\color{red}{f(\theta|x)}\)` (parâmetro é tratado como __variável aleatória__)
+]
+
+
+--
+
+&lt;br /&gt;&lt;br /&gt;&lt;br /&gt;&lt;br /&gt;&lt;br /&gt;&lt;br /&gt;&lt;br /&gt;&lt;br /&gt;
+
+.important_equation_large[
+$$
+\color{red}{f(\theta|x)} = \frac{\color{#3200C3}{f(x|\theta)f(\theta)}}{\color{red}{f(x)}}
+\propto  \color{#3200C3}{f(x|\theta)f(\theta)}
+$$
+]
+
+&lt;span style="position: relative; right: 10rem; bottom: 0.5rem; font-size: 18px"&gt;
+*Os elementos de `\(\mathcal{F}\)` são candidatos a `\(F_0\)`
+&lt;/span&gt;
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>

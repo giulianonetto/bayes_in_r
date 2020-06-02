@@ -16,103 +16,129 @@ header-includes:
   \usepackage{xcolor}
 ---
 
-.center[Rev. Thomas Bayes (1701 – 1761)]
-<br/><br/>
-.center[![Rev. Thomas Bayes (1701 – 1761)](imgs/slides/thomas_bayes.gif)]
-
-
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(
-  message = FALSE, warning = FALSE, highlight = TRUE, comment = "", dpi=300 
-)
-options(htmltools.dir.version = FALSE)
-suppressPackageStartupMessages({
-  library(tidyverse)
-  library(brms)
-  library(tidybayes)
-})
-theme_set(theme_bw())
+```{r, load_refs, include=FALSE, cache=FALSE}
+library(RefManageR)
+BibOptions(check.entries = FALSE,
+           bib.style = "authoryear",
+           cite.style = "authoryear",
+           style = "markdown",
+           hyperlink = FALSE,
+           dashed = FALSE)
+bib <- ReadBib("config_files/library.bib", check = FALSE)
 ```
 
----
-class: center, middle
 
-![](imgs/slides/bayes_paper.png)
+### PDI na indústria farmacêutica
+
+.large[
+* Medicamentos e Vacinas
+* Diagnóstico
+* Formas Farmacêuticas
+* Terapias gênicas e celulares
+]
+
+<br>
+
+<span style="position: relative; float: right">
+```{r echo = FALSE, out.height=325, out.width=600}
+knitr::include_graphics('imgs/slides/pharmaceutical_pdi.png')
+```
+</span>
+
+---
+
+### Eficácia de Tratamento
+
+```{r echo = FALSE}
+knitr::include_graphics('imgs/slides/forest_plot_example.png')
+```
+
+.small[`r Citep(bib, "Luthra2019")`]
+---
+
+.pull-left[
+### Perguntas<br>(quase sempre)<br>sem resposta
+]
+
+.pull-right[
+```{r echo = FALSE}
+knitr::include_graphics('imgs/slides/forest_plot_example.png')
+```
+]
+
+<hr>
+
+
+.large[
+
+* Qual a probabilidade de o __tratamento A ser melhor em média do que o tratamento B__?
+
+]
+--
+
+.large[
+
+* Qual a probabilidade de o tratamento B ter um __efeito médio maior do que 0__?
+]
+
+--
+
+.large[
+* Qual a probabilidade de o tratamento B estar dentro da __faixa terapêutica__?
+]
+
+--
+
+.large[
+* Qual a probabilidade de o tratamento B levar a uma __piora clínica__?
+]
+
+---
+
+## Por que não temos respostas sob estatística clássica?
+
+--
+
+### Efeitos médios são .red[números]
+### Não têm .red[distribuição de probabilidade]
+
+--
+
+
+
+$$
+P(\text{A melhor em média que B}) = \begin{cases} 
+      1 & \mu_A > \mu_B \\\
+      0 & \text{caso contrário} 
+   \end{cases}
+$$ 
+
+<br><br>
+
+.small[
+<sup>*</sup> supondo que ambos se encontram dentro da faixa terapêutica
+]
 
 ---
 class: inverse, center, middle
 
-# Framework Bayesiano
+## Como ter uma ideia sobre os valores possíveis dos meus parâmetros em termos de <i style="color: blue">PROBABILIDADE</i> ?
+
+<br><br>
+
+### Tratar $\mu_A$ e $\mu_B$ como <i style="color: blue">variáveis aleatórias</i>.
+
+---
+class: inverse, center, middle
+
+# Inferência Bayesiana:
+### quantificação probabilística da incerteza
 
 ![](https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Bayes%27_Theorem_MMB_01.jpg/1200px-Bayes%27_Theorem_MMB_01.jpg)
 
 ---
 
-## Te lembras?
-
-$$P(A \cap B)$$
---
-
-$$P(A \cap B) = \color{#3200C3}{P(A|B)P(B)}$$
-
---
-
-$$\color{red}{P(B|A)P(A)} =P(A \cap B) = \color{#3200C3}{P(A|B)P(B)}$$
---
-
-$$\color{red}{P(B|A)P(A)} = \color{#3200C3}{P(A|B)P(B)}$$
-
---
-
-### Teorema de Bayes:
-
-.important_equation[
-$$\color{red}{P(B|A)} = \frac{\color{#3200C3}{P(A|B)P(B)}}{\color{red}{P(A)}}$$
-]
-
-
----
-
-.important_equation[
-$$\color{red}{P(B|A)} = \frac{\color{#3200C3}{P(A|B)P(B)}}{\color{red}{P(A)}}$$
-]
-
---
-
-$X \sim F_0$
-
-.left-column[
-#### Modelo Estatístico
-
-#### Distribuição de $\theta$
-]
-
-.right-column[
-$\mathcal{F} = \{\color{#3200C3}{f(x|\theta)}: \theta \in \Theta\}, x \in \mathcal{X} \quad$
-]
-
-.right-column[
-$\color{red}{f(\theta|x)}$ (parâmetro é tratado como __variável aleatória__)
-]
-
-
---
-
-<br /><br /><br /><br /><br /><br /><br /><br />
-
-.important_equation_large[
-$$
-\color{red}{f(\theta|x)} = \frac{\color{#3200C3}{f(x|\theta)f(\theta)}}{\color{red}{f(x)}}
-\propto  \color{#3200C3}{f(x|\theta)f(\theta)}
-$$
-]
-
-<span style="position: relative; right: 10rem; bottom: 0.5rem; font-size: 18px">
-*Os elementos de $\mathcal{F}$ são candidatos a $F_0$
-</span>
----
-
-### Teorema na prática
+### Bayesian update
 
 $$\color{red}{f(\theta|x)} \propto  \color{#3200C3}{f(x|\theta)f(\theta)}$$
 .important_equation_large[
@@ -127,6 +153,20 @@ $$
 ]
 
 --
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  message = FALSE, warning = FALSE, highlight = TRUE, comment = "", dpi=300 
+)
+options(htmltools.dir.version = FALSE)
+suppressPackageStartupMessages({
+  library(tidyverse)
+  library(brms)
+  library(tidybayes)
+})
+theme_set(theme_bw())
+```
+
 
 ```{r echo=FALSE, fig.height=4, fig.width=13}
 
@@ -251,10 +291,76 @@ $\beta_j \sim \mathcal{N}(0, 1) \text{ para j = 1, 2, ..., J}$
 
 $\sigma \sim \mathcal{Exp}(1)$
 
+---
+class: inverse, middle, center
 
+## APÊNDICE
+
+---
+
+## Te lembras?
+
+$$P(A \cap B)$$
+--
+
+$$P(A \cap B) = \color{#3200C3}{P(A|B)P(B)}$$
+
+--
+
+$$\color{red}{P(B|A)P(A)} =P(A \cap B) = \color{#3200C3}{P(A|B)P(B)}$$
+--
+
+$$\color{red}{P(B|A)P(A)} = \color{#3200C3}{P(A|B)P(B)}$$
+
+--
+
+### Teorema de Bayes:
+
+.important_equation[
+$$\color{red}{P(B|A)} = \frac{\color{#3200C3}{P(A|B)P(B)}}{\color{red}{P(A)}}$$
+]
 
 
 ---
+
+.important_equation[
+$$\color{red}{P(B|A)} = \frac{\color{#3200C3}{P(A|B)P(B)}}{\color{red}{P(A)}}$$
+]
+
+--
+
+$X \sim F_0$
+
+.left-column[
+#### Modelo Estatístico
+
+#### Distribuição de $\theta$
+]
+
+.right-column[
+$\mathcal{F} = \{\color{#3200C3}{f(x|\theta)}: \theta \in \Theta\}, x \in \mathcal{X} \quad$
+]
+
+.right-column[
+$\color{red}{f(\theta|x)}$ (parâmetro é tratado como __variável aleatória__)
+]
+
+
+--
+
+<br /><br /><br /><br /><br /><br /><br /><br />
+
+.important_equation_large[
+$$
+\color{red}{f(\theta|x)} = \frac{\color{#3200C3}{f(x|\theta)f(\theta)}}{\color{red}{f(x)}}
+\propto  \color{#3200C3}{f(x|\theta)f(\theta)}
+$$
+]
+
+<span style="position: relative; right: 10rem; bottom: 0.5rem; font-size: 18px">
+*Os elementos de $\mathcal{F}$ são candidatos a $F_0$
+</span>
+
 
 
 
